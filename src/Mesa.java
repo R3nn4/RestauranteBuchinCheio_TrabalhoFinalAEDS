@@ -1,15 +1,16 @@
+import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class Mesa {
     //ATRIBUTOS
-    private int numeroMesa;
-    private String data; //???
-    private boolean reserva;
+    private int numeroMesa = 0;
+    private Reserva reserva = new Reserva();
     private Cliente[] clientes = new Cliente[4];
     private int num_clientes_atual = 0;
     private final int num_max_clientes = 4;
     private Comanda comanda = new Comanda();
+    private boolean ocupada = false;
 
     //MÉTODOS
 
@@ -18,7 +19,7 @@ public class Mesa {
         return numeroMesa;
     }
     public boolean isReserva() {
-        return reserva;
+        return reserva.isReservada();
     }
     public Comanda getComanda() {
         return comanda;
@@ -28,15 +29,8 @@ public class Mesa {
             System.out.println(i.getNome() + " - " + i.getEmail());
         }
     }
-    //sets
-    public void setNumeroMesa(int numeroMesa) {
-        this.numeroMesa = numeroMesa;
-    }
-    public void setReserva(boolean reserva) {
-        this.reserva = reserva;
-    }
-    public void setComanda(Comanda comanda) {
-        this.comanda = comanda;
+    public boolean isOcupada() {
+        return ocupada;
     }
     public void adicionaCliente(){
         //Confere se ainda ha espaços disponíveis na mesa;
@@ -84,6 +78,58 @@ public class Mesa {
         }
     }
     public void removeCliente(){
-        // fazer depois
+        Scanner scan1 = new Scanner(System.in);
+        int aux = 0;
+        String aux1 = new String();
+
+        System.out.println("Deseja buscar por (1)nome ou por (2)email?");
+        aux = scan1.nextInt();
+
+        if(aux == 1) {
+            System.out.println("Insira o nome do cliente que ira sair desta mesa: ");
+            aux1 = scan1.nextLine();
+
+            for (int i = 0; i < num_max_clientes; i++) {
+                if (Objects.equals(aux1, clientes[i].getNome())) {
+                    /*Para retirar um cliente da mesa, o vetor é "realocado" dentro dele mesmo: todas as posições do vetor
+                     * que estão à frente do cliente que se quer retirar são copiadas uma casa para atrás. Dessa forma, o array se
+                     * reorganiza substituindo as posições anteriores, evitando um "buraco" no meio do vetor e mantendo o funcionamento do código.
+                     * O mesmo é feito na classe Comanda.*/
+                    System.arraycopy(clientes, i, clientes, (i-1), (num_max_clientes - i));
+                    clientes[num_clientes_atual].setNome("");
+                    clientes[num_clientes_atual].setEmail("");
+                    num_clientes_atual--;
+                }
+            }
+        }
+        else if(aux == 2){
+            System.out.println("Insira o email do cliente que ira sair desta mesa: ");
+            aux1 = scan1.nextLine();
+
+            for (int i = 0; i < num_max_clientes; i++) {
+                if (Objects.equals(aux1, clientes[i].getEmail())) {
+                    System.arraycopy(clientes, i, clientes, (i-1), (num_max_clientes - i));
+                    clientes[num_clientes_atual].setNome("");
+                    clientes[num_clientes_atual].setEmail("");
+                    num_clientes_atual--;
+                }
+            }
+        }
+    }
+
+    //sets
+    public void setNumeroMesa(int numeroMesa) {
+        this.numeroMesa = numeroMesa;
+    }
+    public void setReserva(Date data, String nome) {
+        reserva.setReservada(true);
+        reserva.setData(data);
+        reserva.setNome(nome);
+    }
+    public void setComanda(Comanda comanda) {
+        this.comanda = comanda;
+    }
+    public void setOcupada(boolean ocupada) {
+        this.ocupada = ocupada;
     }
 }

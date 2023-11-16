@@ -1,13 +1,24 @@
 public class Restaurante {
     //ATRIBUTOS
-    private final int num_max_mesas = 20;
+    private final int num_max_mesas = 100;
     private int num_mesas_atual = 0;
     private String nome = new String();
     private String endereco = new String();
-    private Mesa[] mesas = new Mesa[num_max_mesas];
-    private Cardapio cardapio = new Cardapio();
+    public Mesa[] mesas = new Mesa[num_max_mesas];
+    public Cardapio cardapio = new Cardapio();
 
     //MÉTODOS
+
+    Restaurante(){
+        inicializaMesas();
+    }
+
+    public void inicializaMesas(){
+        for(int i = 0; i < num_max_mesas; i++){
+            this.mesas[i] = new Mesa();
+            this.mesas[i].setNumeroMesa(i);
+        }
+    }
 
     //gets
     public String getNome() {

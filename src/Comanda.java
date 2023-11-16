@@ -1,3 +1,4 @@
+import java.util.Objects;
 import java.util.Scanner;
 public class Comanda {
     //ATRIBUTOS
@@ -8,6 +9,20 @@ public class Comanda {
 
     //MÉTODOS
 
+    public void adicionaAlimento(Cardapio cardapio){
+        //Pega o identificador do alimento e passa para a função
+        //inicializa alimento para que ele seja inicializado automaticamente;
+        if(num_alimentos < 100) {
+            this.num_alimentos++;
+            Scanner scanner1 = new Scanner(System.in);
+
+            System.out.println("Identificador: ");
+            int aux = scanner1.nextInt();
+            this.consumo[num_alimentos].setIdentificador(aux);
+            inicializaAlimento(aux, cardapio);
+        }
+
+    }
     public int acha_alimento(int identificador){
         int i = 0;
         int j = -1;
@@ -24,6 +39,22 @@ public class Comanda {
     }
     public double calcula10porcento (){
         return (this.valor * 0.1);
+    }
+    public void removeAlimento(){
+        Scanner scan1 = new Scanner(System.in);
+
+        System.out.println("Insira o identificador do Alimento que deseja remover: ");
+        int aux = scan1.nextInt();
+
+        for (int i = 0; i < max_alimentos; i++) {
+            if (Objects.equals(aux, consumo[i].getIdentificador())) {
+                System.arraycopy(consumo, i, consumo, (i-1), (max_alimentos - i));
+                consumo[num_alimentos].setNome("");
+                consumo[num_alimentos].setValor(0);
+                consumo[num_alimentos].setIdentificador(0);
+                num_alimentos--;
+            }
+        }
     }
     public double divideConta(int num_pessoas){
         return (this.valor / num_pessoas);
@@ -50,19 +81,4 @@ public class Comanda {
         return valor;
     }
     public double getNumAlimentos(){ return num_alimentos; }
-    //sets
-    public void adicionaAlimento(Cardapio cardapio){
-        //Pega o identificador do alimento e passa para a função
-        //inicializa alimento para que ele seja inicializado automaticamente;
-        if(num_alimentos < 100) {
-            this.num_alimentos++;
-            Scanner scanner1 = new Scanner(System.in);
-
-            System.out.println("Identificador: ");
-            int aux = scanner1.nextInt();
-            this.consumo[num_alimentos].setIdentificador(aux);
-            inicializaAlimento(aux, cardapio);
-        }
-
-    }
 }

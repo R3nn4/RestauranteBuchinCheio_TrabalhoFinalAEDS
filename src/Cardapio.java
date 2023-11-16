@@ -9,6 +9,7 @@ public class Cardapio {
         inicializaCardapio();
     }
     private void criaPosicaoCardapio(int Posicao, String Nome, double Valor){
+        cardapio[Posicao] = new Alimento();
         if(Posicao >= num_alimentos_atual) {
             cardapio[Posicao].setNome(Nome);
             cardapio[Posicao].setValor(Valor);
@@ -25,6 +26,13 @@ public class Cardapio {
             System.out.println("\nNumero maximo de alimentos atingido!");
         }
     }
+
+    void imprimeCardapio(){
+        for(Alimento j : cardapio){
+            System.out.println(j.getIdentificador() + " - " + j.getNome() + " - " + j.getValor());
+        }
+    }
+
     private void inicializaCardapio(){
         criaPosicaoCardapio(0,"Agua Mineral", 4.00);
         criaPosicaoCardapio(1,"Suco de Fruta", 6.00);
