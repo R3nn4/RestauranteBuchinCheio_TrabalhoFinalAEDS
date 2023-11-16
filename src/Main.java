@@ -3,7 +3,7 @@ public class Main {
     public static void main(String[] args) {
         Restaurante restaurante = new Restaurante();
         Scanner scan1 = new Scanner(System.in);
-        int comando = -1;
+        int comando;
 
         System.out.println("\n- Seja bem vindo ao SOFTWARE PARA RESTAURANTES EFEMEROS! -");
         System.out.println("Aqui, os restaurante so duram enquanto o programa estiver aberto, " +

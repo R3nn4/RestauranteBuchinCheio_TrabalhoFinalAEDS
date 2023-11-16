@@ -4,7 +4,7 @@ public class Comanda {
     //ATRIBUTOS
     private final int max_alimentos = 100;
     private Alimento[] consumo = new Alimento[max_alimentos];
-    private double valor;
+    private double valor = 0;
     private int num_alimentos = 0;
 
     //MÉTODOS
@@ -20,6 +20,7 @@ public class Comanda {
             int aux = scanner1.nextInt();
             this.consumo[num_alimentos].setIdentificador(aux);
             inicializaAlimento(aux, cardapio);
+            this.valor +=  consumo[num_alimentos].getValor();
         }
 
     }
@@ -36,6 +37,7 @@ public class Comanda {
         for(Alimento i : consumo){
             System.out.println(i.getNome() + " - " + i.getValor());
         }
+        System.out.println("Valor total: " + this.valor);
     }
     public double calcula10porcento (){
         return (this.valor * 0.1);
@@ -48,6 +50,7 @@ public class Comanda {
 
         for (int i = 0; i < max_alimentos; i++) {
             if (Objects.equals(aux, consumo[i].getIdentificador())) {
+                this.valor -= consumo[i].getValor();
                 System.arraycopy(consumo, i, consumo, (i-1), (max_alimentos - i));
                 consumo[num_alimentos].setNome("");
                 consumo[num_alimentos].setValor(0);
