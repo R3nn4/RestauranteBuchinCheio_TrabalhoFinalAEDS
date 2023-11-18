@@ -16,7 +16,7 @@ public class Comanda {
             this.num_alimentos++;
             Scanner scanner1 = new Scanner(System.in);
 
-            System.out.println("Identificador: ");
+            System.out.println("Identificador do Alimento a adicionar: ");
             int aux = scanner1.nextInt();
             this.consumo[num_alimentos].setIdentificador(aux);
             inicializaAlimento(aux, cardapio);
@@ -26,12 +26,21 @@ public class Comanda {
     }
     public int acha_alimento(int identificador){
         int i = 0;
-        int j = -1;
-        do{
-            i++;
-            j = this.consumo[i].getIdentificador();
-        }while(j != identificador);
-        return i;
+        boolean aux = false;
+
+        for(i = 0; i < num_alimentos; i++){
+            if(this.consumo[i].getIdentificador() == identificador){
+                aux = true;
+                break;
+            }
+        }
+
+        if(aux == false){
+            System.out.println("\nAlimento nao encontrado!");
+            return -1;
+        }else {
+            return i;
+        }
     }
     public void listarConsumo(){
         for(Alimento i : consumo){
@@ -48,15 +57,17 @@ public class Comanda {
         System.out.println("Insira o identificador do Alimento que deseja remover: ");
         int aux = scan1.nextInt();
 
-        for (int i = 0; i < max_alimentos; i++) {
-            if (Objects.equals(aux, consumo[i].getIdentificador())) {
-                this.valor -= consumo[i].getValor();
-                System.arraycopy(consumo, i, consumo, (i-1), (max_alimentos - i));
-                consumo[num_alimentos].setNome("");
-                consumo[num_alimentos].setValor(0);
-                consumo[num_alimentos].setIdentificador(0);
-                num_alimentos--;
-            }
+        aux = acha_alimento(aux);
+
+        if(aux >= 0){
+            this.valor -= consumo[aux].getValor();
+            System.arraycopy(consumo, aux, consumo, (aux-1), (max_alimentos - aux));
+            consumo[num_alimentos].setNome("");
+            consumo[num_alimentos].setValor(0);
+            consumo[num_alimentos].setIdentificador(0);
+            num_alimentos--;
+        }else{
+            System.out.println("\nFalha ao criar alimento!");
         }
     }
     public double divideConta(int num_pessoas){
@@ -73,6 +84,8 @@ public class Comanda {
             //atribuídos ao nome e valor no alimento na última posicao do consumo da comanda.
             consumo[num_alimentos].setNome(cardapio.cardapio[identificador].getNome());
             consumo[num_alimentos].setValor(cardapio.cardapio[identificador].getValor());
+        }else{
+            System.out.println("\nIdentificador invalido!");
         }
     }
 
