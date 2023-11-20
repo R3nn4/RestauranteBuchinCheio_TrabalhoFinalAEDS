@@ -28,8 +28,8 @@ public class Cardapio {
     }
 
     void imprimeCardapio(){
-        for(Alimento j : cardapio){
-            System.out.println(j.getIdentificador() + " - " + j.getNome() + " - " + j.getValor());
+        for(int j = 0; j < num_alimentos_atual; j++){
+            System.out.println(cardapio[j].getIdentificador() + " - " + cardapio[j].getNome() + " - R$ " + cardapio[j].getValor());
         }
     }
 

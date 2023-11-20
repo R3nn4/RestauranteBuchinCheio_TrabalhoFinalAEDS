@@ -1,4 +1,3 @@
-import java.util.Objects;
 import java.util.Scanner;
 public class Comanda {
     //ATRIBUTOS
@@ -12,66 +11,40 @@ public class Comanda {
     public void adicionaAlimento(Cardapio cardapio){
         //Pega o identificador do alimento e passa para a função
         //inicializa alimento para que ele seja inicializado automaticamente;
+
+        cardapio.imprimeCardapio();
+
         if(num_alimentos < 100) {
-            this.num_alimentos++;
             Scanner scanner1 = new Scanner(System.in);
 
             System.out.println("Identificador do Alimento a adicionar: ");
             int aux = scanner1.nextInt();
+            this.consumo[num_alimentos] = new Alimento();
             this.consumo[num_alimentos].setIdentificador(aux);
             inicializaAlimento(aux, cardapio);
             this.valor +=  consumo[num_alimentos].getValor();
+            this.num_alimentos++;
         }
 
     }
-    public int acha_alimento(int identificador){
-        int i = 0;
-        boolean aux = false;
 
-        for(i = 0; i < num_alimentos; i++){
-            if(this.consumo[i].getIdentificador() == identificador){
-                aux = true;
-                break;
-            }
-        }
-
-        if(aux == false){
-            System.out.println("\nAlimento nao encontrado!");
-            return -1;
-        }else {
-            return i;
-        }
-    }
     public void listarConsumo(){
-        for(Alimento i : consumo){
-            System.out.println(i.getNome() + " - " + i.getValor());
+        for(int i = 0; i < num_alimentos; i++){
+            System.out.println(consumo[i].getIdentificador() + " - " + consumo[i].getNome() + " - " + consumo[i].getValor());
         }
         System.out.println("Valor total: " + this.valor);
     }
     public double calcula10porcento (){
         return (this.valor * 0.1);
     }
-    public void removeAlimento(){
-        Scanner scan1 = new Scanner(System.in);
 
-        System.out.println("Insira o identificador do Alimento que deseja remover: ");
-        int aux = scan1.nextInt();
-
-        aux = acha_alimento(aux);
-
-        if(aux >= 0){
-            this.valor -= consumo[aux].getValor();
-            System.arraycopy(consumo, aux, consumo, (aux-1), (max_alimentos - aux));
-            consumo[num_alimentos].setNome("");
-            consumo[num_alimentos].setValor(0);
-            consumo[num_alimentos].setIdentificador(0);
-            num_alimentos--;
-        }else{
-            System.out.println("\nFalha ao criar alimento!");
-        }
-    }
     public double divideConta(int num_pessoas){
-        return (this.valor / num_pessoas);
+        if(num_pessoas > 0) {
+            return (this.valor / num_pessoas);
+        }else{
+            System.out.println("Ainda nao ha clientes nesta mesa!");
+            return 0;
+        }
     }
     public void inicializaAlimento (int identificador, Cardapio cardapio){
         /*É passado o cardápio do restaurante, que tem disponíveis todos os pratos e bebidas

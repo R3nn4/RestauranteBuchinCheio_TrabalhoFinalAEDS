@@ -14,37 +14,10 @@ public class Mesa {
 
     //MÉTODOS
 
-    public int encontraCliente(int opcao, String identificador){
-        int i = 0;
-        boolean aux = false;
-
-        if(opcao == 1) {
-            for (i = 0; i < num_clientes_atual; i++) {
-                if (Objects.equals(this.clientes[i].getNome(), identificador)) {
-                    aux = true;
-                    break;
-                }
-            }
-        }
-        else if (opcao == 2){
-            for (i = 0; i < num_clientes_atual; i++) {
-                if (Objects.equals(this.clientes[i].getEmail(), identificador)) {
-                    aux = true;
-                    break;
-                }
-            }
-        }
-        if(aux == false){
-            System.out.println("\nCliente nao encontrado!");
-            return -1;
-        }else {
-            return i;
-        }
-    }
     public void adicionaCliente(){
         //Confere se ainda ha espaços disponíveis na mesa;
         if(num_clientes_atual < num_max_clientes) {
-            this.num_clientes_atual++;
+            clientes[num_clientes_atual] = new Cliente();
             Scanner scanner1 = new Scanner(System.in);
             boolean i = false;
             String aux;
@@ -55,13 +28,14 @@ public class Mesa {
                 System.out.println("Insira o nome do cliente: ");
                 aux = scanner1.nextLine();
 
-                for(Cliente j : clientes){
-                    if(Objects.equals(j.getNome(), aux)){
+                for(int j = 0; j <= num_clientes_atual; j++){
+                    if(Objects.equals(clientes[j].getNome(), aux)){
                         System.out.println("\nEste cliente ja foi cadastrado!");
                         break;
                     }else{
                         clientes[num_clientes_atual].setNome(aux);
                         i = true;
+                        break;
                     }
                 }
             }while(!i);
@@ -72,75 +46,28 @@ public class Mesa {
                 System.out.println("Insira o email do cliente: ");
                 aux = scanner1.nextLine();
 
-                for(Cliente j : clientes){
-                    if(Objects.equals(j.getEmail(), aux)){
+                for(int j = 0; j <= num_clientes_atual; j++){
+                    if(Objects.equals(clientes[j].getEmail(), aux)){
                         System.out.println("\nEste cliente ja foi cadastrado!");
                         break;
                     }else{
                         clientes[num_clientes_atual].setEmail(aux);
                         i = true;
+                        break;
                     }
                 }
             }while(!i);
-
-        }else{
+            this.num_clientes_atual++;
+        }
+        else{
             System.out.println("\nMesa lotada!");
         }
     }
-    public void removeCliente(){
-        Scanner scan1 = new Scanner(System.in);
-        int aux = 0;
-        String aux1 = new String();
 
-        if(num_clientes_atual == 0){
-            System.out.println("\nNao ha clientes nesta mesa!");
-            this.ocupada = false;
-        }else {
-
-            System.out.println("Deseja buscar por (1)nome ou por (2)email?");
-            aux = scan1.nextInt();
-
-            if (aux == 1) {
-                System.out.println("Insira o nome do cliente que ira sair desta mesa: ");
-                aux1 = scan1.nextLine();
-                aux = encontraCliente(aux, aux1);
-
-                /*Para retirar um cliente da mesa, o vetor é "realocado" dentro dele mesmo: todas as posições do vetor
-                 * que estão à frente do cliente que se quer retirar são copiadas uma casa para atrás. Dessa forma, o array se
-                 * reorganiza substituindo as posições anteriores, evitando um "buraco" no meio do vetor e mantendo o funcionamento do código.
-                 * O mesmo é feito na classe Comanda.*/
-                if (aux >= 0) {
-                    System.arraycopy(clientes, aux, clientes, (aux - 1), (num_max_clientes - aux));
-                    clientes[num_clientes_atual].setNome("");
-                    clientes[num_clientes_atual].setEmail("");
-                    num_clientes_atual--;
-                } else {
-                    System.out.println("\nFalha ao remover cliente!");
-                }
-            } else if (aux == 2) {
-                System.out.println("Insira o email do cliente que ira sair desta mesa: ");
-                aux1 = scan1.nextLine();
-                aux = encontraCliente(aux, aux1);
-
-                if (aux >= 0) {
-                    System.arraycopy(clientes, aux, clientes, (aux - 1), (num_max_clientes - aux));
-                    clientes[num_clientes_atual].setNome("");
-                    clientes[num_clientes_atual].setEmail("");
-                    num_clientes_atual--;
-                } else {
-                    System.out.println("Falha ao remover cliente!");
-                }
-            }
-
-            if(num_clientes_atual == 0){
-                this.ocupada = false;
-            }
-        }
-    }
     public void imprimeClientes(){
         if(isOcupada()) {
-            for (Cliente i : clientes) {
-                System.out.println(i.getNome() + " - " + i.getEmail());
+            for (int i = 0; i < num_clientes_atual; i++) {
+                System.out.println(clientes[i].getNome() + " - " + clientes[i].getEmail());
             }
         }else{
             System.out.println("\nNao ha clientes nesta mesa!");
