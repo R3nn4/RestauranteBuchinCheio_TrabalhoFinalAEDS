@@ -1,6 +1,10 @@
+/*Trabalho Final de AEDS - Segundo Ano
+* João Renna Wykrota Tostes - Mario Ramos
+* Turma 203 - Prof. Virgínia Mota */
+
 import java.util.Scanner;
 
-public class Main {
+public class TesteRestaurante {
     public static int pega_aux(int max){
         int aux;
         Scanner scan1 = new Scanner(System.in);
