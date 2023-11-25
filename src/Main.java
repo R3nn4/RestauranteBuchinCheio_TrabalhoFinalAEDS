@@ -2,6 +2,19 @@ import java.util.Calendar;
 import java.util.Scanner;
 import java.util.Date;
 public class Main {
+    public static int pega_aux(){
+        int aux;
+        Scanner scan1 = new Scanner(System.in);
+        do {
+            aux = scan1.nextInt();
+            if(aux > 100 || aux < 0){
+                System.out.println("\nMesa invalida! Tente novamente:");
+            }else{
+
+            }
+        }while(aux > 100 || aux < 0);
+        return aux;
+    }
     public static void main(String[] args) {
         Restaurante restaurante = new Restaurante();
         Scanner scan1 = new Scanner(System.in);
@@ -51,19 +64,26 @@ public class Main {
                     break;
                 case 1: /* Adiciona alimento */
                     System.out.println("Insira o numero da mesa correspondente a comanda: ");
-                    aux = scan1.nextInt();
-                    restaurante.mesas[aux].comanda.adicionaAlimento(restaurante.cardapio);
+                    aux = pega_aux();
+
+                    if(restaurante.mesas[aux].isOcupada() == true) {
+                        restaurante.mesas[aux].comanda.adicionaAlimento(restaurante.cardapio);
+                    }
+                    else{
+                        System.out.println("\nEsta mesa ainda nao tem clientes!");
+                    }
 
                     break;
                 case 2: /* Lista consumo */
                     System.out.println("Insira o numero da mesa correspondente a comanda: ");
-                    aux = scan1.nextInt();
+                    aux = pega_aux();
+
                     restaurante.mesas[aux].comanda.listarConsumo();
 
                     break;
                 case 3: /* Divide conta */
                     System.out.println("Insira o numero da mesa correspondente a comanda: ");
-                    aux = scan1.nextInt();
+                    aux = pega_aux();
                     aux1 = restaurante.mesas[aux].comanda.divideConta(restaurante.mesas[aux].getNum_clientes_atual());
 
                     System.out.printf("\nCada cliente da mesa deve pagar: R$ %.2f \n", aux1);
@@ -71,7 +91,7 @@ public class Main {
                     break;
                 case 4: /* Calcula 10% */
                     System.out.println("Insira o numero da mesa correspondente a comanda: ");
-                    aux = scan1.nextInt();
+                    aux = pega_aux();
                     aux1 = restaurante.mesas[aux].comanda.calcula10porcento();
 
                     System.out.printf("O valor da taxa de 10 porcento eh: R$ %.2f \n", aux1);
@@ -80,19 +100,19 @@ public class Main {
                 //Mesas
                 case 5: /* Adiciona cliente */
                     System.out.println("Insira o numero da mesa correspondente: ");
-                    aux = scan1.nextInt();
+                    aux = pega_aux();
                     restaurante.mesas[aux].adicionaCliente();
 
                     break;
                 case 6: /* Imprime clientes */
                     System.out.println("Insira o numero da mesa correspondente: ");
-                    aux = scan1.nextInt();
+                    aux = pega_aux();
                     restaurante.mesas[aux].imprimeClientes();
 
                     break;
                 case 7: /* Faz reserva */
                     System.out.println("Insira o numero da mesa correspondente: ");
-                    aux = scan1.nextInt();
+                    aux = pega_aux();
 
                     if(!restaurante.mesas[aux].isReserva()) {
                         restaurante.mesas[aux].setReserva();
@@ -103,7 +123,7 @@ public class Main {
                     break;
                 case 8: /* Imprime reserva */
                     System.out.println("Insira o numero da mesa correspondente: ");
-                    aux = scan1.nextInt();
+                    aux = pega_aux();
 
                     if(restaurante.mesas[aux].isReserva()) {
                         restaurante.mesas[aux].imprimeReserva();

@@ -30,9 +30,9 @@ public class Comanda {
 
     public void listarConsumo(){
         for(int i = 0; i < num_alimentos; i++){
-            System.out.println(consumo[i].getIdentificador() + " - " + consumo[i].getNome() + " - " + consumo[i].getValor());
+            System.out.println(consumo[i].getIdentificador() + " - " + consumo[i].getNome() + " - R$ " + consumo[i].getValor());
         }
-        System.out.println("Valor total: " + this.valor);
+        System.out.println("Valor total: R$ " + this.valor);
     }
     public double calcula10porcento (){
         return (this.valor * 0.1);
