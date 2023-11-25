@@ -1,7 +1,10 @@
-import java.util.Calendar;
+/*Trabalho Final de AEDS - Segundo Ano
+ * João Renna Wykrota Tostes - Mario Ramos
+ * Turma 203 - Prof. Virgínia Mota */
+
 import java.util.Scanner;
-import java.util.Date;
-public class Main {
+
+public class TesteRestaurante {
     public static int pega_aux(){
         int aux;
         Scanner scan1 = new Scanner(System.in);
@@ -9,8 +12,6 @@ public class Main {
             aux = scan1.nextInt();
             if(aux > 100 || aux < 0){
                 System.out.println("\nMesa invalida! Tente novamente:");
-            }else{
-
             }
         }while(aux > 100 || aux < 0);
         return aux;
