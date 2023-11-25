@@ -9,7 +9,8 @@ public class Mesa {
     private Cliente[] clientes = new Cliente[4];
     private int num_clientes_atual = 0;
     private final int num_max_clientes = 4;
-    public Comanda comanda = new Comanda();
+    public Comanda comandaComidas = new Comanda(0);
+    public Comanda comandaBebidas = new Comanda(1);
     private boolean ocupada = false;
 
     //MÉTODOS
@@ -85,9 +86,10 @@ public class Mesa {
     public boolean isReserva() {
         return reserva.isReservada();
     }
-    public Comanda getComanda() {
-        return comanda;
+    public Comanda getComandaComidas() {
+        return comandaComidas;
     }
+    public Comanda getComandaBebidas() {return comandaBebidas; }
     public boolean isOcupada() {
         return ocupada;
     }
@@ -118,8 +120,11 @@ public class Mesa {
         reserva.setData(aux);
         reserva.setReservada(true);
     }
-    public void setComanda(Comanda comanda) {
-        this.comanda = comanda;
+    public void setComandaComidas(Comanda comandaComidas) {
+        this.comandaComidas = comandaComidas;
+    }
+    public void setComandaBebidas(Comanda comandaBebidas) {
+        this.comandaBebidas = comandaBebidas;
     }
     public void setOcupada(boolean ocupada) {
         this.ocupada = ocupada;

@@ -5,8 +5,21 @@ public class Comanda {
     private Alimento[] consumo = new Alimento[max_alimentos];
     private double valor = 0;
     private int num_alimentos = 0;
+    private int tipo = 0;
 
     //MÉTODOS
+    Comanda(int tipo ){ this.tipo = tipo; }
+    private int pega_aux(){
+        int aux;
+        Scanner scan1 = new Scanner(System.in);
+        do {
+            aux = scan1.nextInt();
+            if(aux > max_alimentos || aux < 0){
+                System.out.println("\nAlimento invalido! Tente novamente:");
+            }
+        }while(aux > max_alimentos || aux < 0);
+        return aux;
+    }
 
     public void adicionaAlimento(Cardapio cardapio){
         //Pega o identificador do alimento e passa para a função
@@ -18,7 +31,7 @@ public class Comanda {
             Scanner scanner1 = new Scanner(System.in);
 
             System.out.println("Identificador do Alimento a adicionar: ");
-            int aux = scanner1.nextInt();
+            int aux = pega_aux();
             this.consumo[num_alimentos] = new Alimento();
             this.consumo[num_alimentos].setIdentificador(aux);
             inicializaAlimento(aux, cardapio);
@@ -62,6 +75,10 @@ public class Comanda {
         }
     }
 
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
     //gets
     public Alimento get_alimento(int posicao){
         return this.consumo[posicao];
@@ -70,4 +87,7 @@ public class Comanda {
         return valor;
     }
     public double getNumAlimentos(){ return num_alimentos; }
+    public int getTipo() {
+        return tipo;
+    }
 }

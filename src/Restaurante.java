@@ -5,7 +5,8 @@ public class Restaurante {
     private String nome = new String();
     private String endereco = new String();
     public Mesa[] mesas = new Mesa[num_max_mesas];
-    public Cardapio cardapio = new Cardapio();
+    public Cardapio cardapioComidas = new Cardapio(0);
+    public Cardapio cardapioBebidas = new Cardapio(1);
 
     //MÉTODOS
 
@@ -27,6 +28,11 @@ public class Restaurante {
     public String getEndereco() {
         return endereco;
     }
+
+    public int getNum_max_mesas() {
+        return num_max_mesas;
+    }
+
     //sets
     public void setNome(String nome) {
         this.nome = nome;

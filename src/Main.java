@@ -1,18 +1,15 @@
-import java.util.Calendar;
 import java.util.Scanner;
-import java.util.Date;
+
 public class Main {
-    public static int pega_aux(){
+    public static int pega_aux(int max){
         int aux;
         Scanner scan1 = new Scanner(System.in);
         do {
             aux = scan1.nextInt();
-            if(aux > 100 || aux < 0){
+            if(aux > max || aux < 0){
                 System.out.println("\nMesa invalida! Tente novamente:");
-            }else{
-
             }
-        }while(aux > 100 || aux < 0);
+        }while(aux > max || aux < 0);
         return aux;
     }
     public static void main(String[] args) {
@@ -36,22 +33,25 @@ public class Main {
             System.out.println("""
                     Comandas
                     \t(1) Cadastrar novo Alimento em uma Comanda;\s
-                    \t(2) Listar consumo da Comanda;\s
-                    \t(3) Dividir a conta da Comanda;\s
-                    \t(4) Calcular 10% da Comanda;\s
+                    \t(2) Listar consumo geral de uma Mesa;\s
+                    \t(3) Listar consumo de comida de uma Mesa;\s
+                    \t(4) Listar consumo de bebida de uma Mesa;\s
+                    \t(5) Dividir a conta da Mesa;\s
+                    \t(6) Calcular 10% da conta da Mesa;\s
                     
                     Mesas
-                    \t(5) Adicionar Cliente a Mesa;\s
-                    \t(6) Imprimir Clientes da Mesa;\s
-                    \t(7) Reservar uma Mesa;\s
-                    \t(8) Imprimir dados de uma Reserva;\s
+                    \t(7) Adicionar Cliente a Mesa;\s
+                    \t(8) Imprimir Clientes da Mesa;\s
+                    \t(9) Reservar uma Mesa;\s
+                    \t(10) Imprimir dados de uma Reserva;\s
                     
                     Cardapio
-                    \t(9) Imprimir Cardapio;\s
-                    \t(10) Inserir novo Alimento no Cardapio;\s
+                    \t(11) Imprimir Cardapio de comida;\s
+                    \t(12) Imprimir Cardapio de bebida;\s
+                    \t(13) Inserir novo Alimento em um Cardapio;\s
                     
                     Restaurante
-                    \t(11) Imprime infos do Restaurante;\s
+                    \t(14) Imprime infos do Restaurante;\s
                     """);
             comando = scan1.nextInt();
 
@@ -64,55 +64,82 @@ public class Main {
                     break;
                 case 1: /* Adiciona alimento */
                     System.out.println("Insira o numero da mesa correspondente a comanda: ");
-                    aux = pega_aux();
+                    aux = pega_aux(restaurante.getNum_max_mesas());
+                    int tipo = 0;
 
                     if(restaurante.mesas[aux].isOcupada() == true) {
-                        restaurante.mesas[aux].comanda.adicionaAlimento(restaurante.cardapio);
+                        System.out.println("Este Alimento eh (0)comida ou (1)bebida?");
+                        tipo = pega_aux(2);
+
+                        if(tipo == 0) {
+                            restaurante.mesas[aux].comandaComidas.adicionaAlimento(restaurante.cardapioComidas);
+                        }else if (tipo == 1){
+                            restaurante.mesas[aux].comandaBebidas.adicionaAlimento(restaurante.cardapioBebidas);
+                        }
                     }
                     else{
                         System.out.println("\nEsta mesa ainda nao tem clientes!");
                     }
 
                     break;
-                case 2: /* Lista consumo */
+                case 2: /* Lista consumo geral*/
                     System.out.println("Insira o numero da mesa correspondente a comanda: ");
-                    aux = pega_aux();
+                    aux = pega_aux(restaurante.getNum_max_mesas());
 
-                    restaurante.mesas[aux].comanda.listarConsumo();
+                    System.out.println("Comidas:");
+                    restaurante.mesas[aux].comandaComidas.listarConsumo();
+                    System.out.println();
+                    System.out.println("Bebidas:");
+                    restaurante.mesas[aux].comandaBebidas.listarConsumo();
+                    System.out.println("Valor total da mesa: R$ " + (restaurante.mesas[aux].comandaComidas.getValor() + restaurante.mesas[aux].comandaBebidas.getValor()));
 
                     break;
-                case 3: /* Divide conta */
+                case 3: /* Lista consumo comida*/
                     System.out.println("Insira o numero da mesa correspondente a comanda: ");
-                    aux = pega_aux();
-                    aux1 = restaurante.mesas[aux].comanda.divideConta(restaurante.mesas[aux].getNum_clientes_atual());
+                    aux = pega_aux(restaurante.getNum_max_mesas());
+
+                    restaurante.mesas[aux].comandaComidas.listarConsumo();
+                    break;
+                case 4: /* Lista consumo bebida*/
+                    System.out.println("Insira o numero da mesa correspondente a comanda: ");
+                    aux = pega_aux(restaurante.getNum_max_mesas());
+
+                    restaurante.mesas[aux].comandaBebidas.listarConsumo();
+                    break;
+                //Mesas
+                case 5: /* Divide conta */
+                    System.out.println("Insira o numero da mesa correspondente a comanda: ");
+                    aux = pega_aux(restaurante.getNum_max_mesas());
+                    aux1 = restaurante.mesas[aux].comandaComidas.divideConta(restaurante.mesas[aux].getNum_clientes_atual());
+                    aux1 += restaurante.mesas[aux].comandaBebidas.divideConta(restaurante.mesas[aux].getNum_clientes_atual());
 
                     System.out.printf("\nCada cliente da mesa deve pagar: R$ %.2f \n", aux1);
 
                     break;
-                case 4: /* Calcula 10% */
+                case 6: /* Calcula 10% */
                     System.out.println("Insira o numero da mesa correspondente a comanda: ");
-                    aux = pega_aux();
-                    aux1 = restaurante.mesas[aux].comanda.calcula10porcento();
+                    aux = pega_aux(restaurante.getNum_max_mesas());
+                    aux1 = restaurante.mesas[aux].comandaComidas.calcula10porcento();
+                    aux1 += restaurante.mesas[aux].comandaBebidas.calcula10porcento();
 
                     System.out.printf("O valor da taxa de 10 porcento eh: R$ %.2f \n", aux1);
 
                     break;
-                //Mesas
-                case 5: /* Adiciona cliente */
+                case 7: /* Adiciona cliente */
                     System.out.println("Insira o numero da mesa correspondente: ");
-                    aux = pega_aux();
+                    aux = pega_aux(restaurante.getNum_max_mesas());
                     restaurante.mesas[aux].adicionaCliente();
 
                     break;
-                case 6: /* Imprime clientes */
+                case 8: /* Imprime clientes */
                     System.out.println("Insira o numero da mesa correspondente: ");
-                    aux = pega_aux();
+                    aux = pega_aux(restaurante.getNum_max_mesas());
                     restaurante.mesas[aux].imprimeClientes();
 
                     break;
-                case 7: /* Faz reserva */
+                case 9: /* Faz reserva */
                     System.out.println("Insira o numero da mesa correspondente: ");
-                    aux = pega_aux();
+                    aux = pega_aux(restaurante.getNum_max_mesas());
 
                     if(!restaurante.mesas[aux].isReserva()) {
                         restaurante.mesas[aux].setReserva();
@@ -121,9 +148,9 @@ public class Main {
                     }
 
                     break;
-                case 8: /* Imprime reserva */
+                case 10: /* Imprime reserva */
                     System.out.println("Insira o numero da mesa correspondente: ");
-                    aux = pega_aux();
+                    aux = pega_aux(restaurante.getNum_max_mesas());
 
                     if(restaurante.mesas[aux].isReserva()) {
                         restaurante.mesas[aux].imprimeReserva();
@@ -132,25 +159,41 @@ public class Main {
                     }
 
                     break;
-                //Cardapio
-                case 9: /* Imprime cardapio */
-                    restaurante.cardapio.imprimeCardapio();
+                case 11: /* Imprime cardapio de comida*/
+                    restaurante.cardapioComidas.imprimeCardapio();
                     break;
-                case 10: /* Cadastra novo alimento */
+                case 12:
+                    restaurante.cardapioBebidas.imprimeCardapio();
+                    break;
+                case 13: /* Cadastra novo alimento */
                     String aux2 = new String();
 
-                    System.out.println("Insira o nome do novo alimento: ");
-                    aux2 = scan1.nextLine();
-                    aux2 = scan1.nextLine();
-                    System.out.println("Agora insira o preco: ");
-                    aux1 = scan1.nextDouble();
+                    System.out.println("Em qual cardapio voce deseja inserir um novo Alimento?");
+                    System.out.println("(0)Cardapio de Comidas - (1)Cardapio de Bebidas");
 
-                    restaurante.cardapio.adicionaAlimento(aux2, aux1);
+                    aux = pega_aux(2);
 
+                    if(aux == 0) {
+                        System.out.println("Insira o nome do novo alimento: ");
+                        aux2 = scan1.nextLine();
+                        aux2 = scan1.nextLine();
+                        System.out.println("Agora insira o preco: ");
+                        aux1 = scan1.nextDouble();
+
+                        restaurante.cardapioComidas.adicionaAlimento(aux2, aux1);
+                    }
+                    else if(aux == 1){
+                        System.out.println("Insira o nome do novo alimento: ");
+                        aux2 = scan1.nextLine();
+                        aux2 = scan1.nextLine();
+                        System.out.println("Agora insira o preco: ");
+                        aux1 = scan1.nextDouble();
+
+                        restaurante.cardapioBebidas.adicionaAlimento(aux2, aux1);
+                    }
                     System.out.println();
                     break;
-                //Restaurante
-                case 11: /* Imprime restaurante */
+                case 14: /* Imprime restaurante */
                     System.out.println("Nome: " + restaurante.getNome());
                     System.out.println("Endereco: " + restaurante.getEndereco());
                     break;
